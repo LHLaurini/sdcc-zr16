@@ -3167,6 +3167,7 @@ checkTypes (operand * left, operand * right)
 operand *
 geniCodeAssign (operand * left, operand * right, int nosupdate, int strictLval)
 {
+
   iCode *ic;
   sym_link *ltype;
 

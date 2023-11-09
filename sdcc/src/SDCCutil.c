@@ -1074,3 +1074,47 @@ copyStr (const char *src, size_t *size)
 
   return dbuf_detach_c_str (&dbuf);
 }
+
+
+char* getSubString (const char *line , const char *ci , const char *ce)
+{
+     char *si = strstr (line , ci);
+	
+	if (!si)
+	{
+		return "0";
+	}
+
+
+	char *se = strstr (line , ce);
+	char *r = alloc(20);
+	int i , l = strcmp (ce , "\0") ? (strlen (si) - strlen (se)) : strlen (si);
+
+	for (i = 1 ; i < l ; i++)
+	{
+		r[i-1] = si[i];
+	}
+
+	r[i] = '\0';
+	return r;
+}
+
+
+
+void replace(char * o_string, const char * s_string, const char * r_string) 
+{
+	
+	char *ch , *buffer = alloc(50);
+
+	if(!(ch = strstr(o_string, s_string)))
+	{
+		return;
+	}
+	strncpy(buffer, o_string, ch-o_string);
+	buffer[ch-o_string] = 0;
+	sprintf(buffer+(ch - o_string), "%s%s", r_string, ch + strlen(s_string));
+	o_string[0] = 0;
+	strcpy(o_string, buffer);
+	
+	return replace(o_string, s_string, r_string);
+}

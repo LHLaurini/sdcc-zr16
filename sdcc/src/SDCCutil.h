@@ -28,6 +28,16 @@
 #include "SDCChasht.h"
 #include "dbuf.h"
 #include <stdarg.h>
+#include <stdlib.h>
+
+
+
+#define alloc(M) (char*)malloc(M*sizeof(char));
+
+
+char* getSubString (const char *line , const char *ci , const char *ce);
+void replace(char * o_string, const char * s_string, const char * r_string);
+
 
 /** Given an array of name, value string pairs creates a new hash
  *  containing all of the pairs.

@@ -52,6 +52,8 @@ extern const ASM_MAPPINGS asm_asxxxx_mapping;
 extern const ASM_MAPPINGS asm_gas_mapping;
 #endif
 extern const ASM_MAPPINGS asm_a390_mapping;
+extern const ASM_MAPPINGS asm_zr16_mapping;
+
 #if !OPT_DISABLE_XA51
 extern const ASM_MAPPINGS asm_xa_asm_mapping;
 #endif

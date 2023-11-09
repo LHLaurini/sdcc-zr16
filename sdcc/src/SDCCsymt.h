@@ -193,7 +193,7 @@ typedef struct specifier
     TYPE_TARGET_ULONG v_fixed16x16;   /* 4 bytes: fixed point constant value     */
     struct symbol *v_enum;            /* ptr to enum_list if enum==1             */
   }
-  const_val;
+  const_val;  
   struct structdef *v_struct;       /* structure pointer      */
 }
 specifier;
@@ -245,7 +245,7 @@ typedef struct sym_link
     specifier s;                    /* if CLASS == SPECIFIER      */
     declarator d;                   /* if CLASS == DECLARATOR     */
   } select;
-
+ 
   /* function attributes */
   struct
   {
@@ -364,7 +364,7 @@ typedef struct symbol
 
   int lineDef;                      /* defined line number        */
   char *fileDef;                    /* defined filename           */
-  int lastLine;                     /* for functions the last line */
+  int lastLine;                   /* for functions the last line */
   struct sym_link *type;            /* 1st link to declarator chain */
   struct sym_link *etype;           /* last link to declarator chain */
   struct symbol *next;              /* crosslink to next symbol   */
@@ -383,8 +383,7 @@ typedef struct symbol
 
   bool for_newralloc;
 }
-symbol;
-
+symbol;	
 extern sym_link *validateLink (sym_link * l,
                                const char *macro, const char *args, const char select, const char *file, unsigned line);
 /* Easy Access Macros */

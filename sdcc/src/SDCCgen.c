@@ -298,6 +298,13 @@ printLine (lineNode * head, struct dbuf_s *oBuf)
       /* don't indent comments & labels */
       if (head->line && (head->isComment || head->isLabel))
         {
+
+		if(TARGET_IS_ZR16)
+		{
+ 			dbuf_printf (oBuf, "%s", head->line);
+		}
+
+		else
           dbuf_printf (oBuf, "%s\n", head->line);
         }
       else
@@ -307,6 +314,7 @@ printLine (lineNode * head, struct dbuf_s *oBuf)
               /* comment out preprocessor directives in inline asm */
               dbuf_append_char (oBuf, ';');
             }
+
           dbuf_printf (oBuf, "\t%s\n", head->line);
         }
       head = head->next;

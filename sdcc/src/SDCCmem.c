@@ -25,6 +25,8 @@
 #include "common.h"
 #include "dbuf_string.h"
 #include "SDCCbtree.h"
+#include <stdio.h>
+
 
 /* memory segments */
 memmap *xstack = NULL;          /* xternal stack data          */
@@ -58,6 +60,8 @@ namedspacemap *namedspacemaps = 0; /* memory segments for named address spaces *
 set *ovrSetSets = NULL;
 
 int fatalError = 0;             /* fatal error flag            */
+
+
 
 /*-----------------------------------------------------------------*/
 /* allocMap - allocates a memory map                               */
@@ -508,7 +512,8 @@ allocDefault (struct symbol * sym)
 void
 allocGlobal (symbol * sym)
 {
-  /* symbol name is internal name  */
+
+/* symbol name is internal name  */
   if (!sym->level)              /* local statics can come here */
     SNPRINTF (sym->rname, sizeof(sym->rname),
               "%s%s", port->fun_prefix, sym->name);
@@ -573,7 +578,8 @@ allocGlobal (symbol * sym)
       (TARGET_IS_PIC16 && (SPEC_SCLS (sym->etype) == S_REGISTER) && (sym->level == 0)) ||
       SPEC_SCLS (sym->etype) == S_AUTO)
     {
-      if (port->mem.default_globl_map != xdata)
+
+	 if (port->mem.default_globl_map != xdata)
         {
           if (sym->ival && SPEC_ABSA (sym->etype))
             {
@@ -600,6 +606,7 @@ allocGlobal (symbol * sym)
     }
 
   allocDefault (sym);
+
   return;
 }
 
@@ -671,7 +678,8 @@ allocParms (value * val)
         { /* allocate them in the automatic space */
           /* generate a unique name  */
           SNPRINTF (lval->sym->rname, sizeof(lval->sym->rname),
-                    "%s%s_PARM_%d", port->fun_prefix, currFunc->name, pNum);
+                    "%s%s_PARM_%d", port->fun_prefix, currFunc->name, pNum);	
+
           strncpyz (lval->name, lval->sym->rname, sizeof(lval->name));
 
           /* if declared in specific storage */
@@ -706,6 +714,7 @@ allocParms (value * val)
           allocIntoSeg (lval->sym);
         }
     }
+
   return;
 }
 
@@ -1117,6 +1126,7 @@ redoStackOffsets (void)
 static int
 printAllocInfoSeg (memmap * map, symbol * func, struct dbuf_s *oBuf)
 {
+
   symbol *sym;
   int flg = FALSE;
 
@@ -1132,6 +1142,7 @@ printAllocInfoSeg (memmap * map, symbol * func, struct dbuf_s *oBuf)
         continue;
 
       dbuf_printf (oBuf, ";%-25s Allocated ", sym->name);
+	
       flg = TRUE;
 
       /* if assigned to registers */
@@ -1139,12 +1150,14 @@ printAllocInfoSeg (memmap * map, symbol * func, struct dbuf_s *oBuf)
         {
           int i;
 
-          sym = OP_SYMBOL (sym->reqv);
+          sym = OP_SYMBOL (sym->reqv);printf  ("%d %s\n", __LINE__ , sym -> name);
           if (!sym->isspilt || sym->remat)
             {
               dbuf_append_str (oBuf, "to registers ");
-              for (i = 0; i < 4 && sym->regs[i]; i++)
+              for (i = 0; i < 4 && sym->regs[i]; i++){
                 dbuf_printf (oBuf, "%s ", port->getRegName (sym->regs[i]));
+		
+		}
               dbuf_append_char (oBuf, '\n');
               continue;
             }
@@ -1168,11 +1181,13 @@ printAllocInfoSeg (memmap * map, symbol * func, struct dbuf_s *oBuf)
             }
 
           dbuf_printf (oBuf, "to stack - %s %+d\n", SYM_BP (sym), sym->stack - stack_offset);
+		
           continue;
         }
 
       /* otherwise give rname */
       dbuf_printf (oBuf, "with name '%s'\n", sym->rname);
+	
     }
 
   return flg;
@@ -1256,6 +1271,8 @@ doOverlays (eBBlock ** ebbs, int count)
 void
 printAllocInfo (symbol * func, struct dbuf_s * oBuf)
 {
+
+	if (TARGET_IS_ZR16) return;
 #define BREAKLINE ";------------------------------------------------------------\n"
   int cnt = 0;
   set *ovrset;
@@ -1268,7 +1285,7 @@ printAllocInfo (symbol * func, struct dbuf_s * oBuf)
   dbuf_append_str (oBuf, BREAKLINE);
   dbuf_printf (oBuf, ";Allocation info for local variables in function '%s'\n", func->name);
   dbuf_append_str (oBuf, BREAKLINE);
-
+	
   cnt += printAllocInfoSeg (xstack, func, oBuf);
   cnt += printAllocInfoSeg (istack, func, oBuf);
   cnt += printAllocInfoSeg (code, func, oBuf);

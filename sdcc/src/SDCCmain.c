@@ -24,6 +24,7 @@
 
 #ifdef _WIN32
 #include <io.h>
+#include <stdio.h>
 #else
 #include <unistd.h>
 #include <libgen.h>
@@ -350,6 +351,10 @@ static PORT *_ports[] = {
 #endif
 #if !OPT_DISABLE_STM8
   &stm8_port,
+#endif
+
+#if !OPT_DISABLE_ZR16
+  &zr16_port,
 #endif
 };
 

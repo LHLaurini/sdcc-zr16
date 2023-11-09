@@ -242,6 +242,7 @@ asm_addTree (const ASM_MAPPINGS * pMappings)
   while (pMap->szKey && pMap->szValue)
     {
       shash_add (&_h, pMap->szKey, pMap->szValue);
+	
       pMap++;
     }
 }
@@ -541,6 +542,58 @@ static const ASM_MAPPING _a390_mapping[] = {
   {NULL, NULL}
 };
 
+
+static const ASM_MAPPING _zr16_mapping[] = {
+  {"labeldef", "%s:"},
+  {"slabeldef", "%s:"},
+  {"tlabeldef", "L%05d:"},
+  {"tlabel", "L%05d"},
+  {"immed", ""},
+  {"zero", "0x00"},
+  {"one", "0x01"},
+  {"area", "; SECTION NOT SUPPORTED"},
+  {"areacode", "; SECTION NOT SUPPORTED"},
+  {"areadata", "; SECTION NOT SUPPORTED"},
+  {"areahome", "; SECTION NOT SUPPORTED"},
+  {"ascii", "; NOT SUPPORTED"},
+  {"ds", "; STORAGE NOT SUPPORTED"},
+  {"db", "; NOT SUPPORTED"},
+  {"dbs", "; NOT SUPPORTED"},
+  {"dw", "; NOT SUPPORTED"},
+  {"dws", "; NOT SUPPORTED"},
+  {"constbyte", "0x%02X"},
+  {"constword", "; NOT SUPPORTED"},
+  {"immedword", "; NOT SUPPORTED"},
+  {"immedbyte", "0x%02X"},
+  {"hashedstr", "#%s"},
+  {"lsbimmeds", "#<%s"},
+  {"msbimmeds", "#>%s"},
+  {"module", " ; NOT SUPPORTED"},
+  {"global", "; NOT SUPPORTED"},
+  {"fileprelude", ""},
+  {"functionheader",
+   "; ---------------------------------\n"
+   "; Function %s\n"
+   "; ---------------------------------"},
+  {"functionlabeldef", "%s:"},
+  {"bankimmeds", "; NOT SUPPORTED"},
+  {"los", "(%s & 0FFh)"},
+  {"his", "((%s / 256) & 0FFh)"},
+  {"hihis", "((%s / 65536) & 0FFh)"},
+  {"hihihis", "((%s / 16777216) & 0FFh)"},
+  {"lod", "(%d & 0FFh)"},
+  {"hid", "((%d / 256) & 0FFh)"},
+  {"hihid", "((%d / 65536) & 0FFh)"},
+  {"hihihid", "((%d / 16777216) & 0FFh)"},
+  {"lol", "(L%05d & 0FFh)"},
+  {"hil", "((L%05d / 256) & 0FFh)"},
+  {"hihil", "((L%05d / 65536) & 0FFh)"},
+  {"hihihil", "((L%09d / 16777216) & 0FFh)"},
+  {"equ", " equ"},
+  {"org", ".org 0x%04X"},
+  {NULL, NULL}
+};
+
 #if !OPT_DISABLE_XA51
 static const ASM_MAPPING _xa_asm_mapping[] = {
   {"labeldef", "%s:"},
@@ -609,6 +662,11 @@ const ASM_MAPPINGS asm_gas_mapping = {
 const ASM_MAPPINGS asm_a390_mapping = {
   NULL,
   _a390_mapping
+};
+
+const ASM_MAPPINGS asm_zr16_mapping = {
+  NULL,
+  _zr16_mapping
 };
 
 #if !OPT_DISABLE_XA51
